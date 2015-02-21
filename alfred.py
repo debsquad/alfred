@@ -28,7 +28,7 @@ class alfred(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         nick = e.source.nick
-        date = time.strftime('%d/%m/%y %H:%M',time.localtime())
+        date = time.strftime('%Y-%m-%d %H:%M',time.localtime())
 
         # module: pacontent
         if re.search("^!Pacontent \w+", e.arguments[0], re.IGNORECASE):
@@ -46,12 +46,8 @@ class alfred(irc.bot.SingleServerIRCBot):
             urlcheck = modurl.parse(date,nick,e.arguments[0])
             if (urlcheck != 0):
                 for entry in urlcheck:
-                    urldate = entry[0]
-                    urlnick = entry[1]
-                    urltxt = entry[2].strip()
-                    warnmsg = "Ce lien déja été posté par " + urlnick +  ' le ' + urldate + ': ' + urltxt
-                    warnmsg = warnmsg.decode('utf-8')
-                    c.privmsg(self.channel, warnmsg)
+                    warnmsg = "Ce lien déja été posté par " + entry[1] +  ' le ' + entry[0] + ': ' + entry[2].strip()
+                    c.privmsg(self.channel, warnmsg.decode('utf-8'))
 
         # module: command
         a = e.arguments[0].split(":", 1)

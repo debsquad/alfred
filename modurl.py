@@ -16,16 +16,23 @@ def parse(date, nick, message):
         message = re.split('\s+', message)
         urlstored = []
         duplicate = []
-        regex = re.compile(
+        urlformat = re.compile(
             r'(^(?:http|ftp)s?://)?' # optonal http:// or https://
             r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
             r'localhost|' #localhost...
             r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
             r'(?::\d+)?' # optional port
             r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+        schemeformat = re.compile(r'^(?:http|ftp)s?://', re.IGNORECASE)
 
         for word in message:
-            if (regex.match(word)):
+            if (urlformat.match(word)):
+                # format url
+                if not schemeformat.match(word):
+                    word = 'http://' + word
+                if word.endswith('/'):
+                    word = word[:-1]
+                word = word.lower()
                 newurl = 1
                 for line in open(urldb):
                     entry = re.split(' \| ', line)
