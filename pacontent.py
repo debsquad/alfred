@@ -1,36 +1,38 @@
+# -*- coding: utf-8 -*-
 import re
 import os.path
-from random import randint
+import random
 
 # Database path
-quotesdb = 'quotes.db'
-quotes = 0
+quotesdb = 'db/pacontent.db'
 
-def init():
-    global quotes
+def checkdb():
     if (not os.path.isfile(quotesdb)):
-        print "Unable to access database."
-        sys.exit(1)
-    else:
-        for line in open(quotesdb):
-            quotes += 1
+        if (open(quotesdb, 'w').close()):
+            pass
+        else:
+            return 1
 
 def save(message):
-    global quotes
-    rmcmd = re.compile("!pacontent ", re.IGNORECASE)
-    message = rmcmd.sub('', message)
-    f = open(quotesdb,'a')
-    f.write(message + "\n")
-    f.close()
-    quotes += 1 # increment quotes total stored in cache
+    if (checkdb() != 1):
+        rmcmd = re.compile("!pacontent ", re.IGNORECASE)
+        message = rmcmd.sub('', message).encode('UTF-8')
+        f = open(quotesdb,'a')
+        f.write(message + "\n")
+        f.close()
+    else:
+        return 1
 
 def show():
-    global quotes
-    quote = randint(1, quotes)
-    count = 1
-    for line in open(quotesdb):
-        if (count == quote):
-           return str(line)
-           break
-        count += 1
+    if (checkdb() != 1):
+        with open(quotesdb) as fp:
+            quotes = fp.readlines()
+            if (quotes):
+                quote = random.choice(quotes)
+                quote = quote.replace('\n','').replace('\r','')
+                return quote
+            else:
+                return "Database is empty"
+    else:
+        return "error: database 'pacontent` denied"
 
