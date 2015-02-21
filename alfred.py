@@ -72,7 +72,7 @@ class alfred(irc.bot.SingleServerIRCBot):
 def main():
     import sys
     if len(sys.argv) != 4:
-        print("Usage: testbot <server[:port]> <channel> <nickname>")
+        print("Usage: alfred <server[:port]> <channel> <nickname>")
         sys.exit(1)
 
     s = sys.argv[1].split(":", 1)
