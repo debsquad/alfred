@@ -12,9 +12,7 @@ def init():
         print "Unable to access database."
         sys.exit(1)
     else:
-        f = open(quotesdb,'r')
-        quotes = 0
-        for line in f:
+        for line in open(quotesdb):
             quotes += 1
 
 def process(command,message=None):
@@ -25,10 +23,10 @@ def process(command,message=None):
         f = open(quotesdb,'a')
         f.write(message + "\n")
         f.close()
-        quotes += 1 # increment quotes total in memory
+        quotes += 1 # increment quotes total stored in cache
     elif (command == 'show'):
-        quote = randint(1, quotes) # random quote line number
-        count = 1 # init
+        quote = randint(1, quotes)
+        count = 1
         for line in open(quotesdb):
             if (count == quote):
                 return str(line)
