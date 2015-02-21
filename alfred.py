@@ -14,37 +14,37 @@ class alfred(irc.bot.SingleServerIRCBot):
         irc.bot.SingleServerIRCBot.__init__(self, [(server, port)], nickname, nickname)
         self.channel = channel
 
-    # if nickname is used
     def on_nicknameinuse(self, c, e):
         c.nick(c.get_nickname() + "_")
 
-    # once connected to the server
     def on_welcome(self, c, e):
         c.join(self.channel)
         c.privmsg(self.channel, "y0")
 
-    # on private message
     def on_privmsg(self, c, e):
         self.do_command(e, e.arguments[0])
 
-    # on public message
     def on_pubmsg(self, c, e):
         nick = e.source.nick
+
+        # module: pacontent
         if re.search("^!Pacontent \w+", e.arguments[0], re.IGNORECASE):
             if (pacontent.save(e.arguments[0]) != 1):
                 c.notice(nick, 'Quote saved.')
             else:
                 c.notice(nick, 'Error while accessing database.')
         elif (irc.strings.lower(e.arguments[0]) == '!pacontent'):
-            c.privmsg(self.channel, pacontent.show().decode('utf-8'))
+            if (pacontent.show() != 1):
+                c.privmsg(self.channel, pacontent.show().decode('utf-8'))
+            else:
+                c.notice(nick, 'Error while accessing database.')
 
-        # talkinkg to the bot
+        # module: command
         a = e.arguments[0].split(":", 1)
         if len(a) > 1 and irc.strings.lower(a[0]) == irc.strings.lower(self.connection.get_nickname()):
             self.do_command(e, a[1].strip())
         return
 
-    # command definitions
     def do_command(self, e, cmd):
         nick = e.source.nick
         c = self.connection
