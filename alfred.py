@@ -12,6 +12,12 @@ server = 'irc.oftc.net'
 port = 6667
 chan = '#debsquad'
 
+# memorize number of quotes at startup
+f = open(quotesdb,'r')
+quotes = 0
+for line in f:
+    quotes += 1
+
 # connexion
 irc = pyirclib.Irclib(server,port)
 irc.setDebug = 1
@@ -35,15 +41,14 @@ def parsemessage(msg):
                 f = open(quotesdb,'a')
                 f.write(message + "\n")
                 f.close()
+                global quotes
+                quotes += 1 # increment quotes total in memory
             # show random entry
             elif re.search("^!Pacontent$", message, re.IGNORECASE):
-                quotes = 0 # init
-                f = open(quotesdb,'r')
-                for line in f:
-                    quotes += 1
+                global quotes
                 quote = randint(1, quotes) # random quote line number
                 count = 1 # init
-                for line in f:
+                for line in open(quotesdb):
                     if (count == quote):
                         formatline = str(line)
                         irc.privmsg(chan,formatline)
