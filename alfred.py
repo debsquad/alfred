@@ -37,12 +37,12 @@ def parsemessage(msg):
                 f.close()
             # show random entry
             elif re.search("^!Pacontent$", message, re.IGNORECASE):
-                quotes = 0
-                for line in open(quotesdb):
-                    quotes += 1
-                quote = randint(1, quotes) # random number
-                count = 1 # count init
+                quotes = 0 # init
                 f = open(quotesdb,'r')
+                for line in f:
+                    quotes += 1
+                quote = randint(1, quotes) # random quote line number
+                count = 1 # init
                 for line in f:
                     if (count == quote):
                         formatline = str(line)
