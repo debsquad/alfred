@@ -30,9 +30,9 @@ def parsemessage(msg):
 
         # FEATURE: Pacontent
         if re.search("^!Pacontent \w+", message, re.IGNORECASE):
-            pacontent.process('save', message)
+            pacontent.save(message)
         elif re.search("^!Pacontent$", message, re.IGNORECASE):
-            irc.privmsg(chan,pacontent.process('show'))
+            irc.privmsg(chan,pacontent.show())
 
 while 1:
   message = irc.getmessage()

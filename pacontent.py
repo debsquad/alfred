@@ -15,21 +15,22 @@ def init():
         for line in open(quotesdb):
             quotes += 1
 
-def process(command,message=None):
+def save(message):
     global quotes
-    if (command == 'save'):
-        rmcmd = re.compile("!pacontent ", re.IGNORECASE)
-        message = rmcmd.sub('', message)
-        f = open(quotesdb,'a')
-        f.write(message + "\n")
-        f.close()
-        quotes += 1 # increment quotes total stored in cache
-    elif (command == 'show'):
-        quote = randint(1, quotes)
-        count = 1
-        for line in open(quotesdb):
-            if (count == quote):
-                return str(line)
-                break
-            count += 1
+    rmcmd = re.compile("!pacontent ", re.IGNORECASE)
+    message = rmcmd.sub('', message)
+    f = open(quotesdb,'a')
+    f.write(message + "\n")
+    f.close()
+    quotes += 1 # increment quotes total stored in cache
+
+def show():
+    global quotes
+    quote = randint(1, quotes)
+    count = 1
+    for line in open(quotesdb):
+        if (count == quote):
+           return str(line)
+           break
+        count += 1
 
