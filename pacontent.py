@@ -32,5 +32,6 @@ def process(command,message=None):
         for line in open(quotesdb):
             if (count == quote):
                 return str(line)
+                break
             count += 1
 

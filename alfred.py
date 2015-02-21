@@ -8,7 +8,7 @@ import pacontent
 
 server = 'irc.oftc.net'
 port = 6667
-chan = '#alfred'
+chan = '#debsquad'
 
 pacontent.init()
 
