@@ -15,7 +15,7 @@ def parse(date, nick, message):
     if (checkdb() != 1):
         message = re.split('\s+', message)
         urlstored = []
-        count = 0
+        duplicate = []
         regex = re.compile(
             r'(^(?:http|ftp)s?://)?' # optonal http:// or https://
             r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
@@ -31,9 +31,9 @@ def parse(date, nick, message):
                     entry = re.split(' \| ', line)
                     if (entry[2].strip() == word): # url already saved
                         newurl = 0
+                        duplicate.append(entry)
                 if (newurl == 1):
                     urlstored.append(word)
-                count += 1
 
         if urlstored:
             f = open(urldb, 'a')
@@ -41,3 +41,7 @@ def parse(date, nick, message):
                 f.write(date + " | " + nick + " | " + url + "\n")
             f.close()
 
+        if duplicate:
+            return duplicate
+        else:
+            return 0

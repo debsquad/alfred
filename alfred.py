@@ -43,12 +43,21 @@ class alfred(irc.bot.SingleServerIRCBot):
                 c.notice(nick, 'Error while accessing database.')
         # module: url
         else:
-            modurl.parse(date,nick,e.arguments[0])
+            urlcheck = modurl.parse(date,nick,e.arguments[0])
+            if (urlcheck != 0):
+                for entry in urlcheck:
+                    urldate = entry[0]
+                    urlnick = entry[1]
+                    urltxt = entry[2].strip()
+                    warnmsg = "Ce lien déja été posté par " + urlnick +  ' le ' + urldate + ': ' + urltxt
+                    warnmsg = warnmsg.decode('utf-8')
+                    c.privmsg(self.channel, warnmsg)
 
         # module: command
         a = e.arguments[0].split(":", 1)
         if len(a) > 1 and irc.strings.lower(a[0]) == irc.strings.lower(self.connection.get_nickname()):
-            self.do_command(e, a[1].strip())
+            if (irc.strings.lower(nick) == 'vnn'):
+                self.do_command(e, a[1].strip())
         return
 
     def do_command(self, e, cmd):
