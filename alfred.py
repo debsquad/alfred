@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import re
+import time
 
 import irc.bot
 import irc.strings
 from irc.client import ip_numstr_to_quad, ip_quad_to_numstr
 
-import pacontent
+import modpacontent
+import modurl
 
 class alfred(irc.bot.SingleServerIRCBot):
     def __init__(self, channel, nickname, server, port=6667):
@@ -26,18 +28,22 @@ class alfred(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         nick = e.source.nick
+        date = time.strftime('%d/%m/%y %H:%M',time.localtime())
 
         # module: pacontent
         if re.search("^!Pacontent \w+", e.arguments[0], re.IGNORECASE):
-            if (pacontent.save(e.arguments[0]) != 1):
+            if (modpacontent.save(e.arguments[0]) != 1):
                 c.notice(nick, 'Quote saved.')
             else:
                 c.notice(nick, 'Error while accessing database.')
         elif (irc.strings.lower(e.arguments[0]) == '!pacontent'):
-            if (pacontent.show() != 1):
-                c.privmsg(self.channel, pacontent.show().decode('utf-8'))
+            if (modpacontent.show() != 1):
+                c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
             else:
                 c.notice(nick, 'Error while accessing database.')
+        # module: url
+        else:
+            modurl.parse(date,nick,e.arguments[0])
 
         # module: command
         a = e.arguments[0].split(":", 1)
