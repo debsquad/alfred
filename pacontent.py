@@ -34,5 +34,5 @@ def show():
             else:
                 return "Database is empty"
     else:
-        return "error: database 'pacontent` denied"
+        return 1
 
