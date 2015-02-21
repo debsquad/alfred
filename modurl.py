@@ -32,11 +32,10 @@ def parse(date, nick, message):
                     word = 'http://' + word
                 if word.endswith('/'):
                     word = word[:-1]
-                word = word.lower()
                 newurl = 1
                 for line in open(urldb):
                     entry = re.split(' \| ', line)
-                    if (entry[2].strip() == word): # url already saved
+                    if (entry[2].strip().lower() == word.lower()): # url already saved
                         newurl = 0
                         duplicate.append(entry)
                 if (newurl == 1):
