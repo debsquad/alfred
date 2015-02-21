@@ -9,7 +9,7 @@ import pacontent
 # config
 server = 'irc.oftc.net'
 port = 6667
-chan = '#alfred'
+chan = '#debsquad'
 nickname = 'alfred'
 username = 'alfred'
 realname = 'Alfred'
