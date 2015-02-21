@@ -27,7 +27,7 @@ def parsemessage(msg):
         if re.search("^!Pacontent", message, re.IGNORECASE):
             # check for database
             if (not os.path.isfile(quotesdb)):
-                rc.privmsg(chan,"Unable to access database.")
+                irc.privmsg(chan,"Unable to access database.")
             # save entry
             elif re.search("^!Pacontent \w+", message, re.IGNORECASE):
                 rmcmd = re.compile("!pacontent ", re.IGNORECASE)
