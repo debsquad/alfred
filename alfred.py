@@ -61,7 +61,7 @@ class alfred(irc.bot.SingleServerIRCBot):
                 c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
             except:
                 c.notice(nick, "Error while accessing pacontent database")
-        elif cmd == 'karma':
+        elif cmd == 'karma' and len(a) > 1:
             try:
                 c.privmsg(self.channel, modkarma.show(a))
             except:

@@ -38,7 +38,7 @@ def listen(a):
 
 def show(a):
     if len(a) <= 1:
-        return 'None'
+        return None
     user = a[1]
     user = user.split(' ', 1)
     user = user[0]
