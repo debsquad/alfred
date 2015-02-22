@@ -12,12 +12,13 @@ def listen(a):
         return None
     if len(a[0]) < 3:
         return None
+
     isnewuser = 1
     user = a[0][:-2].encode('utf-8')
-
     os.rename(karmadb, karmadb+"~" )
     dest = open(karmadb, 'w')
     source = open(karmadb+'~', 'r')
+
     for line in source:
         if re.search(re.escape(user), line, re.IGNORECASE):
             line = line.strip().split(':')
@@ -25,6 +26,7 @@ def listen(a):
             line = user + ':' + str(total) + '\n'
             isnewuser = 0
         dest.write(line)
+
     source.close()
     dest.close()
     os.remove(karmadb+"~")
@@ -39,15 +41,17 @@ def listen(a):
 def show(a):
     if len(a) <= 1:
         return None
+
     user = a[1]
     user = user.split(' ', 1)
     user = user[0].encode('utf-8')
     source = open(karmadb)
     total = 0
+
     for line in source:
         if re.search(re.escape(user), line, re.IGNORECASE):
             line = line.strip().split(':')
             total = line[1]
             break
-    return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
 
+    return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
