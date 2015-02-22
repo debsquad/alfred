@@ -18,8 +18,9 @@ def save(message):
         message = cmdregex.sub('', message).encode('UTF-8')
         with open(quotesdb, 'a') as fp:
             fp.write(message + "\n")
+        return "Quote saved."
     else:
-        return 1
+        return "Error while accessing database."
 
 def show():
     if checkdb() != 1:
@@ -31,5 +32,5 @@ def show():
             else:
                 return "Database is empty"
     else:
-        return 1
+        return "Error while accessing database."
 
