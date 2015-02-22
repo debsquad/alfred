@@ -29,6 +29,7 @@ class alfred(irc.bot.SingleServerIRCBot):
             cmd = a[0][1:].strip().lower()
             self.do_command(e, c, cmd)
         else:
+            nick = e.source.nick
             # module karma
             karmacheck = modkarma.listen(a)
             if karmacheck:
@@ -37,7 +38,6 @@ class alfred(irc.bot.SingleServerIRCBot):
                 else:
                     c.privmsg(self.channel, karmacheck)
             # module: urls
-            nick = e.source.nick
             urlcheck = modurl.parse(nick,e.arguments[0])
             if urlcheck:
                 if urlcheck == 1:
