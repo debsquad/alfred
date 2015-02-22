@@ -1,31 +1,63 @@
 # -*- coding: utf-8 -*-
-import random
+import os
+import re
 
-"""
-import this
-The Zen of Python, by Tim Peters
-"""
+karmadb = 'db/karma.db'
 
-def generate():
-    text = []
-    text.append('Beautiful is better than ugly.')
-    text.append('Explicit is better than implicit.')
-    text.append('Simple is better than complex.')
-    text.append('Complex is better than complicated.')
-    text.append('Sparse is better than dense.')
-    text.append('Readability counts.')
-    text.append('Special cases aren\'t special enough to break the rules.')
-    text.append('Although practicality beats purity.')
-    text.append('Errors should never pass silently.')
-    text.append('Unless explicitly silenced.')
-    text.append('In the face of ambiguity, refuse the temptation to guess.')
-    text.append('There should be one-- and preferably only one --obvious way to do it.')
-    text.append('Although that way may not be obvious at first unless you\'re Dutch.')
-    text.append('Now is better than never.')
-    text.append('Although never is often better than *right* now.')
-    text.append('If the implementation is hard to explain, it\'s a bad idea.')
-    text.append('If the implementation is easy to explain, it may be a good idea.')
-    text.append('Namespaces are one honking great idea -- let\'s do more of those!')
+def checkdb():
+    if not os.path.isfile(karmadb):
+        if open(karmadb, 'w'):
+            pass
+        else:
+            return 1
 
-    r = random.randint(1,18)
-    return text[r]
+def listen(a):
+    a[0] = a[0].strip()
+
+    if checkdb() != 1:
+        if len(a) == 1 and a[0].endswith('++'):
+            isnewuser = 1
+            user = a[0][:-2]
+
+            os.rename(karmadb, karmadb+"~" )
+            dest = open(karmadb, 'w')
+            source = open(karmadb+'~', 'r')
+            for line in source:
+                if re.search(re.escape(user), line, re.IGNORECASE):
+                    line = line.strip().split(':')
+                    total = int(line[1]) + 1
+                    line = user + ':' + str(total)
+                    isnewuser = 0
+                dest.write(line)
+            source.close()
+            dest.close()
+            os.remove(karmadb+"~")
+
+            if isnewuser == 1:
+                total = 1
+                with open(karmadb, 'a') as fp:
+                    fp.write(user + ':1')
+
+            return 'Le karma de ' + user + ' est de: ' + str(total)
+    else:
+        return 1
+
+def show(a):
+    if checkdb() != 1:
+        if len(a) > 1:
+            user = a[1]
+            user = user.split(' ', 1)
+            user = user[0]
+            source = open(karmadb)
+            total = 0
+            for line in source:
+                if re.search(re.escape(user), line, re.IGNORECASE):
+                    line = line.strip().split(':')
+                    total = line[1]
+                    break
+            return 'Le karma de ' + user + ' est de: ' + str(total)
+        else:
+            return 'Arg is missing.'
+    else:
+        return "Error while accessing database."
+

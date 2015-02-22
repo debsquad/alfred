@@ -6,6 +6,7 @@ import irc.bot
 
 from mods import modpacontent
 from mods import modurl
+from mods import modzen
 from mods import modkarma
 
 class alfred(irc.bot.SingleServerIRCBot):
@@ -28,6 +29,13 @@ class alfred(irc.bot.SingleServerIRCBot):
             cmd = a[0][1:].strip().lower()
             self.do_command(e, c, cmd)
         else:
+            # module karma
+            karmacheck = modkarma.listen(a)
+            if karmacheck:
+                if karmacheck == 1:
+                    c.notice(nick, 'Error while accessing database.')
+                else:
+                    c.privmsg(self.channel, karmacheck)
             # module: urls
             nick = e.source.nick
             urlcheck = modurl.parse(nick,e.arguments[0])
@@ -42,15 +50,17 @@ class alfred(irc.bot.SingleServerIRCBot):
 
     def do_command(self, e, c, cmd):
         nick = e.source.nick
+        a = e.arguments[0].split(' ', 1)
 
         if cmd == 'pacontent':
-            a = e.arguments[0].split(' ', 1)
             if len(a) > 1:
                 c.notice(nick, modpacontent.save(e.arguments[0]))
             else:
                 c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
         elif cmd == 'karma':
-                c.privmsg(self.channel, modkarma.generate())
+            c.privmsg(self.channel, modkarma.show(a))
+        elif cmd == 'zen':
+            c.privmsg(self.channel, modzen.generate())
         elif cmd == 'die':
             if nick == 'vnn':
                 self.die()
