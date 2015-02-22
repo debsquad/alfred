@@ -60,15 +60,16 @@ class alfred(irc.bot.SingleServerIRCBot):
         # module: command
         a = e.arguments[0].split(":", 1)
         if len(a) > 1 and a[0].lower() == self.connection.get_nickname().lower():
-            if (nick == 'vnn'):
-                self.do_command(e, a[1].strip())
+            self.do_command(e, a[1].strip())
         return
 
     def do_command(self, e, cmd):
         nick = e.source.nick
         c = self.connection
 
-        if cmd == "disconnect":
+        if (nick != 'vnn'):
+            c.notice(nick, "Permission denied")
+        elif cmd == "disconnect":
             self.disconnect()
         elif cmd == "die":
             self.die()
