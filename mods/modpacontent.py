@@ -14,8 +14,8 @@ def checkdb():
 
 def save(message):
     if (checkdb() != 1):
-        rmcmd = re.compile("!pacontent ", re.IGNORECASE)
-        message = rmcmd.sub('', message).encode('UTF-8')
+        cmdregex = re.compile("!pacontent ", re.IGNORECASE)
+        message = cmdregex.sub('', message).encode('UTF-8')
         f = open(quotesdb, 'a')
         f.write(message + "\n")
         f.close()

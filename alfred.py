@@ -7,9 +7,9 @@ import ssl
 
 import irc.bot
 
-import modpacontent
-import modurl
-import modkarma
+from mods import modpacontent
+from mods import modurl
+from mods import modkarma
 
 class alfred(irc.bot.SingleServerIRCBot):
     def __init__(self, channel, nickname, server, port=6697):
