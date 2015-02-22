@@ -11,7 +11,7 @@ from irc.client import ip_numstr_to_quad, ip_quad_to_numstr
 
 import modpacontent
 import modurl
-import karma
+import modkarma
 
 class alfred(irc.bot.SingleServerIRCBot):
     def __init__(self, channel, nickname, server, port=6697):
@@ -46,7 +46,7 @@ class alfred(irc.bot.SingleServerIRCBot):
                 c.notice(nick, 'Error while accessing database.')
         # module: karma
         elif (irc.strings.lower(e.arguments[0]) == '!karma'):
-            c.privmsg(self.channel, karma.generate())
+            c.privmsg(self.channel, modkarma.generate())
         # module: url
         else:
             urlcheck = modurl.parse(date,nick,e.arguments[0])
