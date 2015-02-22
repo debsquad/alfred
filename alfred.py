@@ -6,8 +6,6 @@ import time
 import ssl
 
 import irc.bot
-import irc.strings
-from irc.client import ip_numstr_to_quad, ip_quad_to_numstr
 
 import modpacontent
 import modurl
@@ -39,13 +37,13 @@ class alfred(irc.bot.SingleServerIRCBot):
                 c.notice(nick, 'Quote saved.')
             else:
                 c.notice(nick, 'Error while accessing database.')
-        elif (irc.strings.lower(e.arguments[0]) == '!pacontent'):
+        elif (e.arguments[0].lower() == '!pacontent'):
             if (modpacontent.show() != 1):
                 c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
             else:
                 c.notice(nick, 'Error while accessing database.')
         # module: karma
-        elif (irc.strings.lower(e.arguments[0]) == '!karma'):
+        elif (e.arguments[0].lower() == '!karma'):
             c.privmsg(self.channel, modkarma.generate())
         # module: url
         else:
@@ -61,7 +59,7 @@ class alfred(irc.bot.SingleServerIRCBot):
 
         # module: command
         a = e.arguments[0].split(":", 1)
-        if len(a) > 1 and irc.strings.lower(a[0]) == irc.strings.lower(self.connection.get_nickname()):
+        if len(a) > 1 and a[0].lower() == self.connection.get_nickname().lower():
             if (nick == 'vnn'):
                 self.do_command(e, a[1].strip())
         return
