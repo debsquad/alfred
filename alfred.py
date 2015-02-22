@@ -46,15 +46,9 @@ class alfred(irc.bot.SingleServerIRCBot):
         if cmd == 'pacontent':
             a = e.arguments[0].split(' ', 1)
             if len(a) > 1:
-                if modpacontent.save(e.arguments[0]) != 1:
-                    c.notice(nick, 'Quote saved.')
-                else:
-                    c.notice(nick, 'Error while accessing database.')
+                c.notice(nick, modpacontent.save(e.arguments[0]))
             else:
-                if modpacontent.show() != 1:
-                    c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
-                else:
-                    c.notice(nick, 'Error while accessing database.')
+                c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
         elif cmd == 'karma':
                 c.privmsg(self.channel, modkarma.generate())
         elif cmd == 'die':
