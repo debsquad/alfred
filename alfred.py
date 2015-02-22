@@ -1,8 +1,6 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import re
-import time
 import ssl
 
 import irc.bot
@@ -24,41 +22,48 @@ class alfred(irc.bot.SingleServerIRCBot):
         c.join(self.channel)
         c.privmsg(self.channel, "y0")
 
-    def on_privmsg(self, c, e):
-        if (e.arguments[0].lower() == '!die'):
-            if (nick != 'vnn'):
-                self.die()
+    #def on_privmsg(self, c, e):
 
     def on_pubmsg(self, c, e):
-        nick = e.source.nick
-        date = time.strftime('%Y-%m-%d %H:%M',time.localtime())
+        a = e.arguments[0].split(' ', 1)
 
-        # module: pacontent
-        if re.search("^!Pacontent \w+", e.arguments[0], re.IGNORECASE):
-            if (modpacontent.save(e.arguments[0]) != 1):
-                c.notice(nick, 'Quote saved.')
-            else:
-                c.notice(nick, 'Error while accessing database.')
-        elif (e.arguments[0].lower() == '!pacontent'):
-            if (modpacontent.show() != 1):
-                c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
-            else:
-                c.notice(nick, 'Error while accessing database.')
-        # module: karma
-        elif (e.arguments[0].lower() == '!karma'):
-            c.privmsg(self.channel, modkarma.generate())
-        # module: url
+        if len(a) > 0 and a[0].startswith('!'):
+            self.do_command(e, c, a[0].strip())
         else:
-            urlcheck = modurl.parse(date,nick,e.arguments[0])
+            # module: urls
+            nick = e.source.nick
+            urlcheck = modurl.parse(nick,e.arguments[0])
             if (urlcheck):
                 if (urlcheck == 1):
                     c.notice(nick, 'Error while accessing database.')
                 else:
                     for entry in urlcheck:
-                        warnmsg = "Ce lien a déjà été posté par " + entry[1]
+                        warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
                         warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
                         c.privmsg(self.channel, warnmsg.decode('utf-8'))
         return
+
+    def do_command(self, e, c, cmd):
+        nick = e.source.nick
+        cmd = cmd[1:].lower()
+        a = e.arguments[0].split(' ', 1)
+
+        if cmd == 'pacontent':
+            if len(a) > 1:
+                if modpacontent.save(e.arguments[0]) != 1:
+                    c.notice(nick, 'Quote saved.')
+                else:
+                    c.notice(nick, 'Error while accessing database.')
+            else:
+                if modpacontent.show() != 1:
+                    c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
+                else:
+                    c.notice(nick, 'Error while accessing database.')
+        elif cmd == 'karma':
+                c.privmsg(self.channel, modkarma.generate())
+        elif cmd == 'die':
+            if (nick == 'vnn'):
+                self.die()
 
 def main():
     import sys

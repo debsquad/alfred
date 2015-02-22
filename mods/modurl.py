@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os.path
 import re
+import time
 
 urldb = 'db/urls.db'
 
@@ -11,7 +12,7 @@ def checkdb():
         else:
             return 1
 
-def parse(date, nick, message):
+def parse(nick, message):
     if (checkdb() != 1):
         message = re.split('\s+', message)
         urlstored = []
@@ -42,6 +43,7 @@ def parse(date, nick, message):
                     urlstored.append(word)
 
         if urlstored:
+            date = time.strftime('%Y-%m-%d %H:%M',time.localtime())
             with open(urldb, 'a') as fp:
                 for url in urlstored:
                     fp.write(date + " | " + nick + " | " + url + "\n")
