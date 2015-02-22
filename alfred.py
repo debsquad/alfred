@@ -25,7 +25,9 @@ class alfred(irc.bot.SingleServerIRCBot):
         c.privmsg(self.channel, "y0")
 
     def on_privmsg(self, c, e):
-        self.do_command(e, e.arguments[0])
+        if (e.arguments[0].lower() == '!die'):
+            if (nick != 'vnn'):
+                self.die()
 
     def on_pubmsg(self, c, e):
         nick = e.source.nick
@@ -56,38 +58,7 @@ class alfred(irc.bot.SingleServerIRCBot):
                         warnmsg = "Ce lien a déjà été posté par " + entry[1]
                         warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
                         c.privmsg(self.channel, warnmsg.decode('utf-8'))
-
-        # module: command
-        a = e.arguments[0].split(":", 1)
-        if len(a) > 1 and a[0].lower() == self.connection.get_nickname().lower():
-            self.do_command(e, a[1].strip())
         return
-
-    def do_command(self, e, cmd):
-        nick = e.source.nick
-        c = self.connection
-
-        if (nick != 'vnn'):
-            c.notice(nick, "Permission denied")
-        elif cmd == "disconnect":
-            self.disconnect()
-        elif cmd == "die":
-            self.die()
-        elif cmd == "stats":
-            for chname, chobj in self.channels.items():
-                c.notice(nick, "--- Channel statistics ---")
-                c.notice(nick, "Channel: " + chname)
-                users = chobj.users()
-                users.sort()
-                c.notice(nick, "Users: " + ", ".join(users))
-                opers = chobj.opers()
-                opers.sort()
-                c.notice(nick, "Opers: " + ", ".join(opers))
-                voiced = chobj.voiced()
-                voiced.sort()
-                c.notice(nick, "Voiced: " + ", ".join(voiced))
-        else:
-            c.notice(nick, "Not understood: " + cmd)
 
 def main():
     import sys
