@@ -31,36 +31,43 @@ class alfred(irc.bot.SingleServerIRCBot):
         else:
             nick = e.source.nick
             # module karma
-            karmacheck = modkarma.listen(a)
-            if karmacheck:
-                if karmacheck == 1:
-                    c.notice(nick, 'Error while accessing database.')
-                else:
+            try:
+                karmacheck = modkarma.listen(a)
+                if karmacheck:
                     c.privmsg(self.channel, karmacheck)
+            except:
+                c.notice(nick, 'Error while accessing database.')
             # module: urls
-            urlcheck = modurl.parse(nick,e.arguments[0])
-            if urlcheck:
-                if urlcheck == 1:
-                    c.notice(nick, 'Error while accessing database.')
-                else:
+            try:
+                urlcheck = modurl.parse(nick,e.arguments[0])
+                if urlcheck:
                     for entry in urlcheck:
                         warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
                         warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
                         c.privmsg(self.channel, warnmsg.decode('utf-8'))
-
+            except:
+                c.notice(nick, 'Error while accessing karma database.')
     def do_command(self, e, c, cmd):
         nick = e.source.nick
         a = e.arguments[0].split(' ', 1)
 
-        if cmd == 'pacontent':
-            if len(a) > 1:
+        if cmd == 'pacontent' and len(a) > 1:
+            try:
                 c.notice(nick, modpacontent.save(e.arguments[0]))
-            else:
+            except:
+                c.notice(nick, "Error while accessing pacontent database")
+        elif cmd == 'pacontent' and len(a) == 1:
+            try:
                 c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
+            except:
+                c.notice(nick, "Error while accessing pacontent database")
         elif cmd == 'karma':
-            c.privmsg(self.channel, modkarma.show(a))
+            try:
+                c.privmsg(self.channel, modkarma.show(a))
+            except:
+                c.notice(nick, "Error while accessing karma database")
         elif cmd == 'zen':
-            c.privmsg(self.channel, modzen.generate())
+                c.privmsg(self.channel, modzen.generate())
         elif cmd == 'die':
             if nick == 'vnn':
                 self.die()
