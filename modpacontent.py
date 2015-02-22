@@ -16,7 +16,7 @@ def save(message):
     if (checkdb() != 1):
         rmcmd = re.compile("!pacontent ", re.IGNORECASE)
         message = rmcmd.sub('', message).encode('UTF-8')
-        f = open(quotesdb,'a')
+        f = open(quotesdb, 'a')
         f.write(message + "\n")
         f.close()
     else:
@@ -27,8 +27,7 @@ def show():
         with open(quotesdb) as fp:
             quotes = fp.readlines()
             if (quotes):
-                quote = random.choice(quotes)
-                quote = quote.replace('\n','').replace('\r','')
+                quote = random.choice(quotes).strip()
                 return quote
             else:
                 return "Database is empty"
