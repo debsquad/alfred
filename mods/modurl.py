@@ -6,6 +6,7 @@ import time
 urldb = 'db/urls.db'
 
 def parse(nick, message):
+    message = message
     message = re.split('\s+', message)
     urlstored = []
     duplicate = []
@@ -16,19 +17,16 @@ def parse(nick, message):
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
         r'(?::\d+)?' # optional port
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-    schemeregex = re.compile(r'^(?:http|ftp)s?://', re.IGNORECASE)
 
     for word in message:
         if urlregex.match(word):
             # format url
-            if not schemeregex.match(word):
-                word = 'http://' + word
             if word.endswith('/'):
                 word = word[:-1]
             newurl = 1
             for line in open(urldb):
                 entry = line.split(' | ')
-                if entry[2].strip().lower() == word.lower(): # url already saved
+                if entry[2].strip().lower() == word.lower():
                     newurl = 0
                     duplicate.append(entry)
             if newurl == 1:

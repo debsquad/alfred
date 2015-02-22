@@ -13,7 +13,7 @@ def listen(a):
     if len(a[0]) < 3:
         return None
     isnewuser = 1
-    user = a[0][:-2]
+    user = a[0][:-2].encode('utf-8')
 
     os.rename(karmadb, karmadb+"~" )
     dest = open(karmadb, 'w')
@@ -34,14 +34,14 @@ def listen(a):
         with open(karmadb, 'a') as fp:
             fp.write(user + ':1\n')
 
-    return 'Le karma de ' + user + ' est de: ' + str(total)
+    return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
 
 def show(a):
     if len(a) <= 1:
         return None
     user = a[1]
     user = user.split(' ', 1)
-    user = user[0]
+    user = user[0].encode('utf-8')
     source = open(karmadb)
     total = 0
     for line in source:
@@ -49,5 +49,5 @@ def show(a):
             line = line.strip().split(':')
             total = line[1]
             break
-    return 'Le karma de ' + user + ' est de: ' + str(total)
+    return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
 

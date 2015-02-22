@@ -46,7 +46,7 @@ class alfred(irc.bot.SingleServerIRCBot):
                         warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
                         c.privmsg(self.channel, warnmsg.decode('utf-8'))
             except:
-                c.notice(nick, 'Error while accessing karma database.')
+                c.notice(nick, 'Error while accessing url database.')
     def do_command(self, e, c, cmd):
         nick = e.source.nick
         a = e.arguments[0].split(' ', 1)
