@@ -6,14 +6,14 @@ import random
 quotesdb = 'db/pacontent.db'
 
 def checkdb():
-    if (not os.path.isfile(quotesdb)):
-        if (open(quotesdb, 'w').close()):
+    if not os.path.isfile(quotesdb):
+        if open(quotesdb, 'w').close():
             pass
         else:
             return 1
 
 def save(message):
-    if (checkdb() != 1):
+    if checkdb() != 1:
         cmdregex = re.compile("!pacontent ", re.IGNORECASE)
         message = cmdregex.sub('', message).encode('UTF-8')
         with open(quotesdb, 'a') as fp:
@@ -22,10 +22,10 @@ def save(message):
         return 1
 
 def show():
-    if (checkdb() != 1):
+    if checkdb() != 1:
         with open(quotesdb) as fp:
             quotes = fp.readlines()
-            if (quotes):
+            if quotes:
                 quote = random.choice(quotes).strip()
                 return quote
             else:

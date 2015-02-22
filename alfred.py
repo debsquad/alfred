@@ -31,8 +31,8 @@ class alfred(irc.bot.SingleServerIRCBot):
             # module: urls
             nick = e.source.nick
             urlcheck = modurl.parse(nick,e.arguments[0])
-            if (urlcheck):
-                if (urlcheck == 1):
+            if urlcheck:
+                if urlcheck == 1:
                     c.notice(nick, 'Error while accessing database.')
                 else:
                     for entry in urlcheck:
@@ -58,7 +58,7 @@ class alfred(irc.bot.SingleServerIRCBot):
         elif cmd == 'karma':
                 c.privmsg(self.channel, modkarma.generate())
         elif cmd == 'die':
-            if (nick == 'vnn'):
+            if nick == 'vnn':
                 self.die()
 
 def main():
