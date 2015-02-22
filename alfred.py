@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import ssl
-
 import irc.bot
 
 from mods import modpacontent
@@ -22,13 +21,12 @@ class alfred(irc.bot.SingleServerIRCBot):
         c.join(self.channel)
         c.privmsg(self.channel, "y0")
 
-    #def on_privmsg(self, c, e):
-
     def on_pubmsg(self, c, e):
         a = e.arguments[0].split(' ', 1)
 
-        if len(a) > 0 and a[0].startswith('!'):
-            self.do_command(e, c, a[0].strip())
+        if len(a[0]) > 1 and a[0].startswith('!'):
+            cmd = a[0][1:].strip().lower()
+            self.do_command(e, c, cmd)
         else:
             # module: urls
             nick = e.source.nick
@@ -41,14 +39,12 @@ class alfred(irc.bot.SingleServerIRCBot):
                         warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
                         warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
                         c.privmsg(self.channel, warnmsg.decode('utf-8'))
-        return
 
     def do_command(self, e, c, cmd):
         nick = e.source.nick
-        cmd = cmd[1:].lower()
-        a = e.arguments[0].split(' ', 1)
 
         if cmd == 'pacontent':
+            a = e.arguments[0].split(' ', 1)
             if len(a) > 1:
                 if modpacontent.save(e.arguments[0]) != 1:
                     c.notice(nick, 'Quote saved.')
