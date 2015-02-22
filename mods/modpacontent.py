@@ -16,9 +16,8 @@ def save(message):
     if (checkdb() != 1):
         cmdregex = re.compile("!pacontent ", re.IGNORECASE)
         message = cmdregex.sub('', message).encode('UTF-8')
-        f = open(quotesdb, 'a')
-        f.write(message + "\n")
-        f.close()
+        with open(quotesdb, 'a') as fp:
+            fp.write(message + "\n")
     else:
         return 1
 

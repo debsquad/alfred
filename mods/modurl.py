@@ -42,10 +42,9 @@ def parse(date, nick, message):
                     urlstored.append(word)
 
         if urlstored:
-            f = open(urldb, 'a')
-            for url in urlstored:
-                f.write(date + " | " + nick + " | " + url + "\n")
-            f.close()
+            with open(urldb, 'a') as fp:
+                for url in urlstored:
+                    fp.write(date + " | " + nick + " | " + url + "\n")
 
         if duplicate:
             return duplicate
