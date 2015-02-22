@@ -44,10 +44,14 @@ class alfred(irc.bot.SingleServerIRCBot):
         # module: url
         else:
             urlcheck = modurl.parse(date,nick,e.arguments[0])
-            if (urlcheck != 0):
-                for entry in urlcheck:
-                    warnmsg = "Ce lien a déjà été posté par " + entry[1] +  ' le ' + entry[0] + ': ' + entry[2].strip()
-                    c.privmsg(self.channel, warnmsg.decode('utf-8'))
+            if (urlcheck):
+                if (urlcheck == 1):
+                    c.notice(nick, 'Error while accessing database.')
+                else:
+                    for entry in urlcheck:
+                        warnmsg = "Ce lien a déjà été posté par " + entry[1]
+                        warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
+                        c.privmsg(self.channel, warnmsg.decode('utf-8'))
 
         # module: command
         a = e.arguments[0].split(":", 1)
