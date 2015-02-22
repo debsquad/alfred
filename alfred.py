@@ -3,6 +3,7 @@
 
 import re
 import time
+import ssl
 
 import irc.bot
 import irc.strings
@@ -13,8 +14,9 @@ import modurl
 import karma
 
 class alfred(irc.bot.SingleServerIRCBot):
-    def __init__(self, channel, nickname, server, port=6667):
-        irc.bot.SingleServerIRCBot.__init__(self, [(server, port)], nickname, nickname)
+    def __init__(self, channel, nickname, server, port=6697):
+        factory = irc.connection.Factory(wrapper=ssl.wrap_socket)
+        irc.bot.SingleServerIRCBot.__init__(self, [(server, port)], nickname, nickname, connect_factory = factory)
         self.channel = channel
 
     def on_nicknameinuse(self, c, e):
@@ -103,7 +105,7 @@ def main():
             print("Error: Erroneous port.")
             sys.exit(1)
     else:
-        port = 6667
+        port = 6697
     channel = sys.argv[2]
     nickname = sys.argv[3]
 
