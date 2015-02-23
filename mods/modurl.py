@@ -16,7 +16,7 @@ def listen(nick, e):
         r'localhost|' #localhost...
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
         r'(?::\d+)?' # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE | re.UNICODE)
 
     for word in message:
         if urlregex.match(word):
@@ -26,7 +26,8 @@ def listen(nick, e):
             newurl = 1
             for line in open(urldb):
                 entry = line.split(' | ')
-                if entry[2].strip().lower() == word.lower():
+                oldurl = entry[2].decode('utf-8')
+                if oldurl.strip().lower() == word.lower():
                     newurl = 0
                     duplicate.append(entry)
             if newurl == 1:
@@ -36,7 +37,8 @@ def listen(nick, e):
         date = time.strftime('%Y-%m-%d %H:%M',time.localtime())
         with open(urldb, 'a') as fp:
             for url in urlstored:
-                fp.write(date + " | " + nick + " | " + url + "\n")
+                newline = date + " | " + nick + " | " + url + "\n"
+                fp.write(newline.encode('utf-8'))
 
     if duplicate:
         return duplicate

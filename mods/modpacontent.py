@@ -8,7 +8,7 @@ def process(e):
     a = e.arguments[0].split(' ', 1)
 
     if len(a) > 1:
-        msg = a[1]
+        msg = a[1].encode('utf-8')
 
         with open(quotesdb, 'a') as fp:
             fp.write(msg + "\n")
@@ -20,6 +20,6 @@ def process(e):
 
             if quotes:
                 quote = random.choice(quotes).strip()
-                return quote
+                return quote.decode('utf-8')
             else:
                 return "Database is empty"

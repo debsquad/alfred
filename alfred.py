@@ -31,53 +31,46 @@ class alfred(irc.bot.SingleServerIRCBot):
         c.privmsg(self.channel, helloworld[r])
 
     def on_pubmsg(self, c, e):
-        e.arguments[0] = e.arguments[0].encode('utf-8')
         a = e.arguments[0].split(' ', 1)
         if len(a[0]) > 1 and a[0].startswith('!'):
             self.do_command(e, c)
         else:
             self.do_listen(e, c)
 
-    def irc_output(self, output):
-        return output.decode('utf-8')
-
     def do_listen(self, e, c):
-        nick = e.source.nick.encode('utf-8')
+        nick = e.source.nick
 
         # modKarma
         try:
             karmacheck = modkarma.listen(e)
             if karmacheck:
-                c.privmsg(self.channel, self.irc_output(karmacheck))
+                c.privmsg(self.channel, karmacheck)
                 return
         except:
             c.notice(nick, 'Error while accessing karma database.')
 
         # modUrl
-        try:
-            urlcheck = modurl.listen(nick, e)
-            if urlcheck:
-                for entry in urlcheck:
-                    warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
-                    warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
-                    c.privmsg(self.channel, self.irc_output(warnmsg))
-                return
-        except:
-            c.notice(nick, 'Error while accessing url database.')
+        urlcheck = modurl.listen(nick, e)
+        if urlcheck:
+            for entry in urlcheck:
+                warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
+                warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
+                c.privmsg(self.channel, warnmsg.decode('utf-8'))
+            return
 
     def do_command(self, e, c):
-        nick = e.source.nick.encode('utf-8')
+        nick = e.source.nick
         a = e.arguments[0].split(' ', 1)
         cmd = a[0][1:].strip().lower()
 
         if cmd == 'pacontent':
             try:
-                c.privmsg(self.channel, self.irc_output(modpacontent.process(e)))
+                c.privmsg(self.channel, modpacontent.process(e))
             except:
                 c.notice(nick, "Error while accessing pacontent database")
         elif cmd == 'karma':
             try:
-                c.privmsg(self.channel, self.irc_output(modkarma.show(e)))
+                c.privmsg(self.channel, modkarma.show(e))
             except:
                 c.notice(nick, "Error while accessing karma database")
         elif cmd == 'zen':

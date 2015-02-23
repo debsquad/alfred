@@ -29,7 +29,7 @@ def listen(e):
                 total = int(line[1]) - 1
             line = user + ':' + str(total) + '\n'
             is_newuser = 0
-        dest.write(line)
+        dest.write(line.encode('utf-8'))
 
     source.close()
     dest.close()
@@ -41,7 +41,8 @@ def listen(e):
         else:
             total = -1
         with open(karmadb, 'a') as fp:
-            fp.write(user + ':' + str(total) + '\n')
+            line = user + ':' + str(total) + '\n'
+            fp.write(line.encode('utf-8'))
 
     return 'Le karma de ' + user + ' est de: ' + str(total)
 
@@ -65,7 +66,7 @@ def show(e):
 
     if user == 'all':
         if allentries:
-            return allentries[:-3]
+            return allentries[:-3].decode('utf-8')
         else:
             return "Database is empty"
     else:
