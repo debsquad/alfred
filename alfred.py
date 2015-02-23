@@ -29,24 +29,29 @@ class alfred(irc.bot.SingleServerIRCBot):
             cmd = a[0][1:].strip().lower()
             self.do_command(e, c, cmd)
         else:
-            nick = e.source.nick
-            # module karma
-            try:
-                karmacheck = modkarma.listen(a)
-                if karmacheck:
-                    c.privmsg(self.channel, karmacheck)
-            except:
-                c.notice(nick, 'Error while accessing database.')
-            # module: urls
-            try:
-                urlcheck = modurl.parse(nick,e.arguments[0])
-                if urlcheck:
-                    for entry in urlcheck:
-                        warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
-                        warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
-                        c.privmsg(self.channel, warnmsg.decode('utf-8'))
-            except:
-                c.notice(nick, 'Error while accessing url database.')
+            self.do_listen(e, c)
+
+    def do_listen(self, e, c):
+        nick = e.source.nick
+        a = e.arguments[0].split(' ', 1)
+
+        try:
+            karmacheck = modkarma.listen(a)
+            if karmacheck:
+                c.privmsg(self.channel, karmacheck)
+        except:
+            c.notice(nick, 'Error while accessing database.')
+
+        try:
+            urlcheck = modurl.parse(nick,e.arguments[0])
+            if urlcheck:
+                for entry in urlcheck:
+                    warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
+                    warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
+                    c.privmsg(self.channel, warnmsg.decode('utf-8'))
+        except:
+            c.notice(nick, 'Error while accessing url database.')
+
     def do_command(self, e, c, cmd):
         nick = e.source.nick
         a = e.arguments[0].split(' ', 1)
