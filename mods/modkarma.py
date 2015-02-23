@@ -4,7 +4,8 @@ import re
 
 karmadb = 'db/karma.db'
 
-def listen(a):
+def listen(e):
+    a = e.arguments[0].split(' ', 1)
     if len(a) != 1:
         return None
     a[0] = a[0].strip()
@@ -44,17 +45,28 @@ def listen(a):
 
     return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
 
-def show(a):
+def show(e):
+    a = e.arguments[0].split(' ', 1)
     if len(a) <= 1:
         return False
     user = a[1].split(' ', 1)
     user = user[0].encode('utf-8')
     total = 0
+    allentries = ''
 
     for line in open(karmadb):
-        if re.search(re.escape(user), line, re.IGNORECASE):
-            line = line.strip().split(':')
-            total = line[1]
-            break
+        if user == 'all':
+            allentries += line.strip() + ' | '
+        else:
+            if re.search(re.escape(user), line, re.IGNORECASE):
+                line = line.strip().split(':')
+                total = line[1]
+                break
 
-    return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
+    if user == 'all':
+        if allentries:
+            return allentries[:-3].decode('utf-8')
+        else:
+            return "Database is empty"
+    else:
+        return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)

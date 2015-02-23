@@ -39,11 +39,10 @@ class alfred(irc.bot.SingleServerIRCBot):
 
     def do_listen(self, e, c):
         nick = e.source.nick
-        a = e.arguments[0].split(' ', 1)
 
         # modKarma
         try:
-            karmacheck = modkarma.listen(a)
+            karmacheck = modkarma.listen(e)
             if karmacheck:
                 c.privmsg(self.channel, karmacheck)
                 return
@@ -52,7 +51,7 @@ class alfred(irc.bot.SingleServerIRCBot):
 
         # modUrl
         try:
-            urlcheck = modurl.parse(nick,e.arguments[0])
+            urlcheck = modurl.listen(nick,e)
             if urlcheck:
                 for entry in urlcheck:
                     warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
@@ -74,7 +73,7 @@ class alfred(irc.bot.SingleServerIRCBot):
                 c.notice(nick, "Error while accessing pacontent database")
         elif cmd == 'karma':
             try:
-                c.privmsg(self.channel, modkarma.show(a))
+                c.privmsg(self.channel, modkarma.show(e))
             except:
                 c.notice(nick, "Error while accessing karma database")
         elif cmd == 'zen':

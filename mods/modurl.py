@@ -5,8 +5,8 @@ import time
 
 urldb = 'db/urls.db'
 
-def parse(nick, message):
-    message = message
+def listen(nick, e):
+    message = e.arguments[0]
     message = re.split('\s+', message)
     urlstored = []
     duplicate = []
