@@ -16,7 +16,7 @@ def listen(nick, e):
         r'localhost|' #localhost...
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
         r'(?::\d+)?' # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE | re.UNICODE)
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
     for word in message:
         if urlregex.match(word):
