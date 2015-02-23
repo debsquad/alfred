@@ -6,7 +6,7 @@ import time
 urldb = 'db/urls.db'
 
 def listen(nick, e):
-    message = e.arguments[0]
+    message = e.arguments[0].encode('utf-8')
     message = re.split('\s+', message)
     urlstored = []
     duplicate = []
@@ -16,7 +16,7 @@ def listen(nick, e):
         r'localhost|' #localhost...
         r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
         r'(?::\d+)?' # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+        r'(?:/?|[/?]\S+)$', re.IGNORECASE | re.UNICODE)
 
     for word in message:
         if urlregex.match(word):
