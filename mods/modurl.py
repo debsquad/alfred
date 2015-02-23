@@ -25,9 +25,9 @@ def listen(nick, e):
                 word = word[:-1]
             newurl = 1
             for line in open(urldb):
+                line = line.decode('utf-8')
                 entry = line.split(' | ')
-                oldurl = entry[2].decode('utf-8')
-                if oldurl.strip().lower() == word.lower():
+                if entry[2].strip().lower() == word.lower():
                     newurl = 0
                     duplicate.append(entry)
             if newurl == 1:

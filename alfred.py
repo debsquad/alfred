@@ -53,9 +53,8 @@ class alfred(irc.bot.SingleServerIRCBot):
         urlcheck = modurl.listen(nick, e)
         if urlcheck:
             for entry in urlcheck:
-                warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
-                warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
-                c.privmsg(self.channel, warnmsg.decode('utf-8'))
+                warnmsg = u"Ce lient a déjà été posté par {} le {}: {}".format(entry[1],entry[0], entry[2].strip())
+                c.privmsg(self.channel, warnmsg)
             return
 
     def do_command(self, e, c):
