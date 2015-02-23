@@ -14,7 +14,7 @@ Here are the available modules:
    * _!pacontent \<quote\>_: saves the specified quote in a text database.
    * _!pacontent_: randomly output one of the database entries.
  * **modKarma**:
-   * _''\<nickname\>++``_: increments user karma
+   * _\<nickname\>++_: increments user karma
    * _!karma \<nicname\>_: prints user karma
  * **modZen**:
    * _!zen_: prints random part of "import this" by Tim Peters
