@@ -10,7 +10,7 @@ alfred \<server[:port]\> \<channel\> \<nickname\>
 
 ## Modules
 Here are the available modules:
- * **modPacontent**: command _!pacontent <quote>_ saves the specified quote 
+ * **modPacontent**: command _!pacontent \<quote\>_ saves the specified quote 
    in a text database and command _!pacontent_ randomly output one of the
    database entries.
  * **modUrl**: silently stores channel urls into a text database. Entry format
