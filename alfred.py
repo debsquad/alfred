@@ -37,6 +37,11 @@ class alfred(irc.bot.SingleServerIRCBot):
         else:
             self.do_listen(e, c)
 
+    def irc_output(self, e, c, output):
+        if isinstance(output, unicode):
+            output.decode('utf-8')
+        return output
+
     def do_listen(self, e, c):
         nick = e.source.nick
 
@@ -56,7 +61,7 @@ class alfred(irc.bot.SingleServerIRCBot):
                 for entry in urlcheck:
                     warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
                     warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
-                    c.privmsg(self.channel, warnmsg.decode('utf-8'))
+                    c.privmsg(self.channel, sreturn(warnmsg))
                 return
         except:
             c.notice(nick, 'Error while accessing url database.')
@@ -68,7 +73,8 @@ class alfred(irc.bot.SingleServerIRCBot):
 
         if cmd == 'pacontent':
             try:
-                c.privmsg(self.channel, modpacontent.process(e))
+                pccheck = modpacontent.process(e)
+                c.privmsg(self.channel, self.irc_output(e, c, pccheck))
             except:
                 c.notice(nick, "Error while accessing pacontent database")
         elif cmd == 'karma':

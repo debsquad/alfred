@@ -6,7 +6,7 @@ import time
 urldb = 'db/urls.db'
 
 def listen(nick, e):
-    message = e.arguments[0].encode('utf-8')
+    message = e.arguments[0]
     message = re.split('\s+', message)
     urlstored = []
     duplicate = []

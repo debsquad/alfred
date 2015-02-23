@@ -15,7 +15,7 @@ def listen(e):
         return None
 
     is_newuser = 1
-    user = a[0][:-2].encode('utf-8')
+    user = a[0][:-2]
     os.rename(karmadb, karmadb+"~" )
     dest = open(karmadb, 'w')
     source = open(karmadb+'~', 'r')
@@ -43,14 +43,14 @@ def listen(e):
         with open(karmadb, 'a') as fp:
             fp.write(user + ':' + str(total) + '\n')
 
-    return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
+    return 'Le karma de ' + user + ' est de: ' + str(total)
 
 def show(e):
     a = e.arguments[0].split(' ', 1)
     if len(a) <= 1:
         return False
     user = a[1].split(' ', 1)
-    user = user[0].encode('utf-8')
+    user = user[0]
     total = 0
     allentries = ''
 
@@ -65,8 +65,8 @@ def show(e):
 
     if user == 'all':
         if allentries:
-            return allentries[:-3].decode('utf-8')
+            return allentries[:-3]
         else:
             return "Database is empty"
     else:
-        return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
+        return 'Le karma de ' + user + ' est de: ' + str(total)
