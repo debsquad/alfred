@@ -39,9 +39,6 @@ def listen(a):
     return 'Le karma de ' + user.decode('utf-8') + ' est de: ' + str(total)
 
 def show(a):
-    if len(a) <= 1:
-        return None
-
     user = a[1]
     user = user.split(' ', 1)
     user = user[0].encode('utf-8')
