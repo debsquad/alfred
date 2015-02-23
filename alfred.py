@@ -42,7 +42,7 @@ class alfred(irc.bot.SingleServerIRCBot):
         return output.decode('utf-8')
 
     def do_listen(self, e, c):
-        nick = e.source.nick
+        nick = e.source.nick.encode('utf-8')
 
         # modKarma
         try:
@@ -51,19 +51,22 @@ class alfred(irc.bot.SingleServerIRCBot):
                 c.privmsg(self.channel, self.irc_output(karmacheck))
                 return
         except:
-            c.notice(nick, 'Error while accessing database.')
+            c.notice(nick, 'Error while accessing karma database.')
 
         # modUrl
-        urlcheck = modurl.listen(nick, e)
-        if urlcheck:
-            for entry in urlcheck:
-                warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
-                warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
-                c.privmsg(self.channel, self.irc_output(warnmsg))
-            return
+        try:
+            urlcheck = modurl.listen(nick, e)
+            if urlcheck:
+                for entry in urlcheck:
+                    warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
+                    warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
+                    c.privmsg(self.channel, self.irc_output(warnmsg))
+                return
+        except:
+            c.notice(nick, 'Error while accessing url database.')
 
     def do_command(self, e, c):
-        nick = e.source.nick
+        nick = e.source.nick.encode('utf-8')
         a = e.arguments[0].split(' ', 1)
         cmd = a[0][1:].strip().lower()
 
