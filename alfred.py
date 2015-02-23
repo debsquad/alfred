@@ -13,7 +13,12 @@ from mods import modkarma
 class alfred(irc.bot.SingleServerIRCBot):
     def __init__(self, channel, nickname, server, port=6697):
         factory = irc.connection.Factory(wrapper=ssl.wrap_socket)
-        irc.bot.SingleServerIRCBot.__init__(self, [(server, port)], nickname, nickname, connect_factory = factory)
+        irc.bot.SingleServerIRCBot.__init__(
+            self,
+            [(server, port)],
+            nickname,
+            nickname,
+            connect_factory = factory)
         self.channel = channel
 
     def on_nicknameinuse(self, c, e):
