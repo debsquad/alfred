@@ -1,5 +1,5 @@
 # alfred
-Alfred is a simple ircbot using SSL.
+alfred is a simple ircbot using SSL.
 
 ## Requirements
  * Python 2.7: https://www.python.org/
