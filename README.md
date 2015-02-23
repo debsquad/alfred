@@ -6,7 +6,7 @@ Python 2.7: https://www.python.org/
 Package IRC: https://pypi.python.org/pypi/irc
 
 ## Usage
-alfred <server\[:port\]> <channel> <nickname>
+alfred \<server[:port]\> \<channel\> \<nickname\>
 
 ## Modules
 Here are the available modules:
