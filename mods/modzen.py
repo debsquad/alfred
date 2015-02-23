@@ -8,6 +8,9 @@ The Zen of Python, by Tim Peters
 
 def generate():
     text = []
+    result = []
+    r = random.randint(0,17)
+
     text.append('Beautiful is better than ugly.')
     text.append('Explicit is better than implicit.')
     text.append('Simple is better than complex.')
@@ -27,5 +30,15 @@ def generate():
     text.append('If the implementation is easy to explain, it may be a good idea.')
     text.append('Namespaces are one honking great idea -- let\'s do more of those!')
 
-    r = random.randint(1,18)
-    return text[r]
+    if r == 6 or r == 7:
+        result = [text[6], text[7]]
+    elif r == 8 or r == 9:
+        result = [text[8], text[9]]
+    elif r == 11 or r == 12:
+        result = [text[11], text[12]]
+    elif r == 13 or r == 14:
+        result = [text[13], text[14]]
+    else:
+        result.append(text[r])
+
+    return result

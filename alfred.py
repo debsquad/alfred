@@ -67,7 +67,9 @@ class alfred(irc.bot.SingleServerIRCBot):
             except:
                 c.notice(nick, "Error while accessing karma database")
         elif cmd == 'zen':
-                c.privmsg(self.channel, modzen.generate())
+            zencheck = modzen.generate()
+            for result in zencheck:
+                c.privmsg(self.channel, result)
         elif cmd == 'die':
             if nick == 'vnn':
                 self.die()
