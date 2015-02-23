@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import random
 import ssl
 import irc.bot
 
@@ -20,7 +21,9 @@ class alfred(irc.bot.SingleServerIRCBot):
 
     def on_welcome(self, c, e):
         c.join(self.channel)
-        c.privmsg(self.channel, "y0")
+        yo = [ 'y0', 'wesh', 'salut', 'moo', 'm00', 'salutations' ]
+        r = random.randint(0,len(yo))
+        c.privmsg(self.channel, yo[r])
 
     def on_pubmsg(self, c, e):
         a = e.arguments[0].split(' ', 1)
@@ -41,7 +44,6 @@ class alfred(irc.bot.SingleServerIRCBot):
                 c.privmsg(self.channel, karmacheck)
         except:
             c.notice(nick, 'Error while accessing database.')
-
         try:
             urlcheck = modurl.parse(nick,e.arguments[0])
             if urlcheck:
@@ -78,6 +80,9 @@ class alfred(irc.bot.SingleServerIRCBot):
         elif cmd == 'die':
             if nick == 'vnn':
                 self.die()
+        elif cmd == 'disconnect':
+            if nick == 'vnn':
+                self.disconnect()
 
 def main():
     import sys
