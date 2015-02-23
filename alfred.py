@@ -26,9 +26,9 @@ class alfred(irc.bot.SingleServerIRCBot):
 
     def on_welcome(self, c, e):
         c.join(self.channel)
-        yo = [ 'y0', 'wesh', 'salut', 'moo', 'm00', 'salutations' ]
-        r = random.randint(0,len(yo))
-        c.privmsg(self.channel, yo[r])
+        helloworld = [ 'y0', 'wesh', 'salut', 'moo', 'm00', 'salutations' ]
+        r = random.randint(0,len(helloworld)-1)
+        c.privmsg(self.channel, helloworld[r])
 
     def on_pubmsg(self, c, e):
         a = e.arguments[0].split(' ', 1)
@@ -41,12 +41,16 @@ class alfred(irc.bot.SingleServerIRCBot):
         nick = e.source.nick
         a = e.arguments[0].split(' ', 1)
 
+        # modKarma
         try:
             karmacheck = modkarma.listen(a)
             if karmacheck:
                 c.privmsg(self.channel, karmacheck)
+                return
         except:
             c.notice(nick, 'Error while accessing database.')
+
+        # modUrl
         try:
             urlcheck = modurl.parse(nick,e.arguments[0])
             if urlcheck:
@@ -54,6 +58,7 @@ class alfred(irc.bot.SingleServerIRCBot):
                     warnmsg = 'Ce lien a déjà été posté par ' + entry[1]
                     warnmsg += ' le ' + entry[0] + ': ' + entry[2].strip()
                     c.privmsg(self.channel, warnmsg.decode('utf-8'))
+                return
         except:
             c.notice(nick, 'Error while accessing url database.')
 
@@ -62,17 +67,12 @@ class alfred(irc.bot.SingleServerIRCBot):
         a = e.arguments[0].split(' ', 1)
         cmd = a[0][1:].strip().lower()
 
-        if cmd == 'pacontent' and len(a) > 1:
+        if cmd == 'pacontent':
             try:
-                c.notice(nick, modpacontent.save(e.arguments[0]))
+                c.privmsg(self.channel, modpacontent.process(e))
             except:
                 c.notice(nick, "Error while accessing pacontent database")
-        elif cmd == 'pacontent' and len(a) == 1:
-            try:
-                c.privmsg(self.channel, modpacontent.show().decode('utf-8'))
-            except:
-                c.notice(nick, "Error while accessing pacontent database")
-        elif cmd == 'karma' and len(a) > 1:
+        elif cmd == 'karma':
             try:
                 c.privmsg(self.channel, modkarma.show(a))
             except:
