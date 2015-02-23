@@ -32,10 +32,8 @@ class alfred(irc.bot.SingleServerIRCBot):
 
     def on_pubmsg(self, c, e):
         a = e.arguments[0].split(' ', 1)
-
         if len(a[0]) > 1 and a[0].startswith('!'):
-            cmd = a[0][1:].strip().lower()
-            self.do_command(e, c, cmd)
+            self.do_command(e, c)
         else:
             self.do_listen(e, c)
 
@@ -59,9 +57,10 @@ class alfred(irc.bot.SingleServerIRCBot):
         except:
             c.notice(nick, 'Error while accessing url database.')
 
-    def do_command(self, e, c, cmd):
+    def do_command(self, e, c):
         nick = e.source.nick
         a = e.arguments[0].split(' ', 1)
+        cmd = a[0][1:].strip().lower()
 
         if cmd == 'pacontent' and len(a) > 1:
             try:
