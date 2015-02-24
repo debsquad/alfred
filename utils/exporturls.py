@@ -41,16 +41,19 @@ print """
             max-width: 1140px;
             margin: 0 auto;
             background: white;
+            padding: 2em 2em 3em;
+            box-sizing: border-box;
         }
-        .entry {background: white;}
-        .var { background: #f8f8f8 }
+        .entry {background: white;border-radius: 2px; overflow: hidden;}
+        .var { background: #f8f8f8;}
         table { border: none; }
-        td { padding: .6em 1em; vertical-align: top; }
+        td { padding: .6em 1em; vertical-align: top;}
         td:first-of-type { min-width: 9em }
         td:last-of-type { color: #444 }
         </style>
     </head>
     <body>
+        <div class=wrap>
         <table cellspacing="0" cellpadding="0">
 """
 
@@ -76,6 +79,7 @@ for line in urlpack:
 
 print """
         </table>
+        </div>
     </body>
 </html>
 """
