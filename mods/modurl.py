@@ -12,6 +12,7 @@ def listen(nick, e):
     message = re.split('\s+', message)
     urlstored = []
     duplicate = []
+    registered = False
     urlregex = re.compile(
         r'^(?:http|ftp)s?://' # http:// or https://
         r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
@@ -29,8 +30,8 @@ def listen(nick, e):
                 entry = line.split(' | ')
                 if entry[2].strip().lower() == word.lower():
                     duplicate.append(entry)
-                    oldurl = 1
-            if not oldurl:
+                    registered = True
+            if registered == False:
                 urlstored.append(word)
 
     if urlstored:

@@ -17,6 +17,7 @@ def listen(e):
         return None
 
     user = a[0][:-2]
+    registered = False
     os.rename(karmadb, karmadb+"~" )
     dest = open(karmadb, 'w')
     source = open(karmadb+'~', 'r')
@@ -29,14 +30,14 @@ def listen(e):
             else:
                 total = int(line[1]) - 1
             line = user + ':' + str(total) + '\n'
-            registered = 1
+            registered = True
         dest.write(line.encode('utf-8'))
 
     source.close()
     dest.close()
     os.remove(karmadb+"~")
 
-    if not registered:
+    if registered == False:
         if a[0].endswith('++'):
             total = 1
         else:
