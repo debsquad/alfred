@@ -22,17 +22,15 @@ def listen(nick, e):
 
     for word in message:
         if urlregex.match(word):
-            # format url
             if word.endswith('/'):
                 word = word[:-1]
-            newurl = 1
             for line in open(urldb):
                 line = line.decode('utf-8')
                 entry = line.split(' | ')
                 if entry[2].strip().lower() == word.lower():
-                    newurl = 0
                     duplicate.append(entry)
-            if newurl == 1:
+                    oldurl = 1
+            if not oldurl:
                 urlstored.append(word)
 
     if urlstored:
