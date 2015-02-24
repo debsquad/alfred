@@ -23,3 +23,5 @@ Here are the available modules:
  * **modUrl**: 
    * silently store channel urls into a text database.
    * print a warning if an url was already recorded
+   * feature _utils/exporturls.py_ to generate a simple web page from 
+     database
