@@ -50,12 +50,16 @@ class alfred(irc.bot.SingleServerIRCBot):
             c.notice(nick, 'Error while accessing karma database.')
 
         # modUrl
-        urlcheck = modurl.listen(nick, e)
-        if urlcheck:
-            for entry in urlcheck:
-                warnmsg = u"Ce lient a déjà été posté par {} le {}: {}".format(entry[1],entry[0], entry[2].strip())
-                c.privmsg(self.channel, warnmsg)
-            return
+        try:
+            urlcheck = modurl.listen(nick, e)
+            if urlcheck:
+                for entry in urlcheck:
+                    warnmsg = u"Ce lient a déjà été posté par {} le {}: {}"
+                    warnmsg = warnmsg.format(entry[1],entry[0], entry[2].strip())
+                    c.privmsg(self.channel, warnmsg)
+                return
+        except:
+            c.notice(nick, 'Error while accessing url database.')
 
     def do_command(self, e, c):
         nick = e.source.nick

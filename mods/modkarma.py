@@ -13,6 +13,8 @@ def listen(e):
         return None
     if len(a[0]) < 3:
         return None
+    if a[0][:-2] == 'all':
+        return None
 
     is_newuser = 1
     user = a[0][:-2]
