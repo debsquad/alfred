@@ -20,5 +20,6 @@ Here are the available modules:
    * _!karma all_: print all database entries
  * **modZen**:
    * _!zen_: print random part of "import this" by Tim Peters
- * **modUrl**: silently store channel urls into a text database.
-   If a link was previously stored, print a message with information from database.
+ * **modUrl**: 
+   * silently store channel urls into a text database.
+   * print a warning if an url was already recorded
