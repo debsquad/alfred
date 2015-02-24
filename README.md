@@ -11,8 +11,8 @@ alfred \<server[:port]\> \<channel\> \<nickname\>
 ## Modules
 Here are the available modules:
  * **modPacontent**:
-   * _!pacontent \<quote\>_: save the specified quote in a text database.
-   * _!pacontent_: randomly output one of the database entries.
+   * _!pacontent \<quote\>_: save the specified quote in a text database
+   * _!pacontent_: randomly output one of the database entries
  * **modKarma**:
    * _\<nickname\>--_: decrement nickname karma
    * _\<nickname\>++_: increment nickname karma
