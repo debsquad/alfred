@@ -29,7 +29,7 @@ def listen(e):
             else:
                 total = int(line[1]) - 1
             line = user + ':' + str(total) + '\n'
-            registered= 1
+            registered = 1
         dest.write(line.encode('utf-8'))
 
     source.close()
