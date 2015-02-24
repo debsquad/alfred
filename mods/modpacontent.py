@@ -20,5 +20,4 @@ def process(e):
         if quotes:
             quote = random.choice(quotes).strip()
             return quote.decode('utf-8')
-        else:
-            return "Database is empty"
+        return "Database is empty"
