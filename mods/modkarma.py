@@ -29,14 +29,14 @@ def listen(e):
             else:
                 total = int(line[1]) - 1
             line = user + ':' + str(total) + '\n'
-            already_in = 1
+            registered= 1
         dest.write(line.encode('utf-8'))
 
     source.close()
     dest.close()
     os.remove(karmadb+"~")
 
-    if not already_in:
+    if not registered:
         if a[0].endswith('++'):
             total = 1
         else:
