@@ -11,12 +11,14 @@ alfred \<server[:port]\> \<channel\> \<nickname\>
 ## Modules
 Here are the available modules:
  * **modPacontent**:
-   * _!pacontent \<quote\>_: saves the specified quote in a text database.
+   * _!pacontent \<quote\>_: save the specified quote in a text database.
    * _!pacontent_: randomly output one of the database entries.
  * **modKarma**:
-   * _\<nickname\>++_: increments user karma
-   * _!karma \<nicname\>_: prints user karma
+   * _\<nickname\>--_: decrement nickname karma
+   * _\<nickname\>++_: increment nickname karma
+   * _!karma \<nicname\>_: print nickname karma
+   * _!karma all_: print all database entries
  * **modZen**:
-   * _!zen_: prints random part of "import this" by Tim Peters
- * **modUrl**: silently stores channel urls into a text database.
+   * _!zen_: print random part of "import this" by Tim Peters
+ * **modUrl**: silently store channel urls into a text database.
    If a link was previously stored, print a message with information from database.
