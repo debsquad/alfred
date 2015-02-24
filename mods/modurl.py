@@ -7,6 +7,8 @@ urldb = 'db/urls.db'
 
 def listen(nick, e):
     message = e.arguments[0]
+    if re.search('\[nolog\]', message, re.IGNORECASE):
+        return None
     message = re.split('\s+', message)
     urlstored = []
     duplicate = []
